@@ -32,4 +32,6 @@ function functionform(a)
     return (t -> a[1] + a[2]*t + a[3]*t^2 + a[4]*t^3 + a[5]*t^4 + a[6]*t^5, t-> a[2] + a[3]*t^1 + a[4]*t^2 + a[5]*t^3 + a[6]*t^4, t-> a[3] + a[4]*t^1 + a[5]*t^2 + a[6]*t^3)
 end
 
+# TODO: fazer a geração de trajetórias pelo método tradicional do livro do craig e conferir se essas equações estão corretas pois a velocidade e a aceleração não está zerando
+
 end
