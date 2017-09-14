@@ -21,6 +21,6 @@ end
 
 
 x,v,a = functionform(minimumjerk(0,0,0,0,10,0,0,0.5))
-time = 0:0.01:.5
-y = map(x,time)
+time = 0:0.01:0.9
+y = map(a,time)
 plot(time,y)

@@ -3,11 +3,11 @@ push!(LOAD_PATH, pwd()*"/modules")
 using Trajetorias
 using PyPlot
 
-tempo = 3
-coeficientes = minimumjerk(0,0,0,20,0,0,tempo)
+tempo_final = 0.5
+coeficientes = minimumjerk(0,0,0,0,10,0,0,tempo_final)
 posicao, velocidade, aceleracao = functionform(coeficientes)
 
-x = 0:0.1:tempo
+x = 0:0.01:tempo_final
 y1 = map(posicao,x)
 y2 = map(velocidade,x)
 y3 = map(aceleracao,x)
