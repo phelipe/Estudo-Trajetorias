@@ -25,7 +25,7 @@ configuration(state, elbow)[:] = 0.4
 velocity(state, shoulder)[:] = 1.
 velocity(state, elbow)[:] = 2.
 
-# O tipo MechanismState contém variáveis de cache que dependem de configurações e veocidades das juntas. Estas precisam ser invalidadas quando as configurações e velocidades são modificadas, isto pose ser feito como é mostrado a seguir
+# O tipo MechanismState contém variáveis de cache que dependem de configurações e velocidades das juntas. Estas precisam ser invalidadas quando as configurações e velocidades são modificadas, isto pose ser feito como é mostrado a seguir
 setdirty!(state)
 
 # uma forma de modificar o estado sem que seja necessário utilizar o setdirty! é através das funções apresentadas abaixo, elas mudam o estado e velocidade já realizando essa operação.
@@ -40,3 +40,14 @@ set_velocity!(state, elbow, [2.])
 # As configurações e velocidades são armazenadas como vetores dentro do objeto  MechanismState
 q = configuration(state)
 v = velocity(state)
+# é possível pegar o estado e velocidade de uma junta específica utilizando velocity(state, joint) ou configuration(state, joint)
+
+
+
+# CINEMÁTICA
+
+# DINÂMICA
+#O objeto MechanismState pode ser utilizado para obter informações sobre a dinâmica do Mecanismo.
+# O  tipo Mechanism guarda o layout das juntas/corpos mas não guarda a dinâmica nem a cinemática destes. Esta informação fica contida em um tipo separado chamado DynamicsResult.
+result = DynamicsResult(doublependulum)
+a = dynamics!(result, state, [1.0,1.0])
