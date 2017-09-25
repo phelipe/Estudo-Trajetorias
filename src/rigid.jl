@@ -4,7 +4,7 @@ using StaticArrays
 using Plots
 
 # Carregando um arquivo udrf com as características do pendulo duplo
-urdf = "../doblependulum.urdf"
+urdf = "urdf/doublependulum.urdf"
 doublependulum = parse_urdf(Float64, urdf)
 
 # Aqui fica visível os corpos que compões o pendulo duplo
@@ -47,7 +47,24 @@ v = velocity(state)
 # CINEMÁTICA
 
 # DINÂMICA
-#O objeto MechanismState pode ser utilizado para obter informações sobre a dinâmica do Mecanismo.
 # O  tipo Mechanism guarda o layout das juntas/corpos mas não guarda a dinâmica nem a cinemática destes. Esta informação fica contida em um tipo separado chamado DynamicsResult.
 result = DynamicsResult(doublependulum)
-a = dynamics!(result, state, [1.0,1.0])
+
+# calcula o centro de massa do mecanismo no estado(state)
+center_of_mass(state)
+
+# Calcula o vetor de aceleração (dinâmica direta) e o multiplicador de lagrange da equação de Euler-Lagrange
+# a = dynamics!(result, state, [1.0,1.0])
+
+# Calcula o termo de viés dinâmico da equação de Euler Lagrange no estado(state)
+dynamics_bias(state)
+
+# Calcula a massa total do mecanismo
+mass(doublependulum)
+
+# Calcula a matriz de massa do macanismo no estado atual(state)
+mass_matrix(state)
+
+# Calcula a dinâmica inversa do mecanismo a aprti do estado atual e da aceleração atual
+v̇ = [2.; 3.] # the joint acceleration vector, i.e., the time derivative of the joint velocity vector v
+inverse_dynamics(state, v̇)
