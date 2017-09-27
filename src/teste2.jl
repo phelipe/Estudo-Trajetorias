@@ -1,7 +1,16 @@
 
 using RigidBodyDynamics
+using StaticArrays
 
-urdf = "urdf/doublependulum.urdf"
+using CoordinateTransformations
+using GeometryTypes
+using DrakeVisualizer
+using RigidBodyTreeInspector
+
+urdf = "urdf/kuka.urdf"
 mechanism = parse_urdf(Float64, urdf)
 state = MechanismState{Float64}( mechanism)
-times, joint_angles, joint_velocities = simulate(state, 5.)
+DrakeVisualizer.any_open_windows() || DrakeVisualizer.new_window();
+vis = Visualizer(mechanism);
+set_configuration!(state,[10, 20, 20,20,20,20,0.])
+settransform!(vis, state)
