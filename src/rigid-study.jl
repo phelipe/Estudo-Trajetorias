@@ -39,13 +39,26 @@ fourbar = Mechanism(world; gravity = SVector(0., 0., g))
 
 # Partiremos agora para a criação da árvore cinemática em si
 # primeiro criaremos a junta 1
-joint1 = Joint("joint1", Revolute(axis))
-#agora criamos o referencial inercial do corpo
-inertia1 = SpatialInertia(CartesianFrame3D("inertia1_centroidal"), I_1*axis*axis', m_1*zeros(SVector{3, T}), m_1)
+# agora criamos o referencial inercial do corpo
 # basicamente definimos um frame 3D, informamos a matriz de momento de inércia do corpo, a posição do centro de massa com relação ao sistema de referência local(no caso, o sistema de referência local está tendo origem no próprio centro de massa, assim será um vetor de zeros) multiplicado pela massa e informamos a massa.
-link1 = RigidBody(inertia1)
 
-# basicamente será necessário fazer duas transformações aqui já que não adotei o eixo no iníio do corpo e sim no meio dele, assim tenho uma transformação entre o eixo global e a junta 1 e depois entre a junta 1 e o eixo de gravidade. Esta basicamente será uma translação do eixo
-before_joint1_to_world = eye(Transform3D, frame_before(joint1), default_frame(world))
-c1_to_joint = Transform3D(inertia1.frame, frame_after(joint1), SVector(c_1, 0, 0))
-attach!(fourbar, world, link1, joint1, joint_pose = before_joint1_to_world, successor_pose = c1_to_joint)
+joint1 = Joint("joint1", Revolute(axis))
+inertia1 = SpatialInertia(CartesianFrame3D("inertia1_centroidal"), I_1*axis*axis', m_1*SVector(c_1, 0., 0.), m_1)
+link1 = RigidBody(inertia1)
+joint1_to_world = eye(Transform3D, frame_before(joint1), default_frame(world))
+attach!(fourbar, world, link1, joint1, joint_pose = joint1_to_world)
+
+joint2 = Joint("joint2", Revolute(axis))
+inertia2 = SpatialInertia(CartesianFrame3D("inertia2_centroidal"), I_2*axis*axis', m_2*SVector(c_2, 0., 0.), m_2)
+link2 = RigidBody(inertia2)
+joint2_to_link1 = Transform3D(frame_before(joint2), default_frame(link1), SVector(l_1,0.,0.))
+attach!(fourbar, link1, link2, joint2, joint_pose = joint2_to_link1)
+
+joint3 =Joint("joint3", Revolute(axis))
+inertial3 = SpatialInertia(CartesianFrame3D("inertia3_centroidal"), I_3*axis*axis', m_3*SVector(c_3, 0., 0.),m_3)
+link3 = RigidBody(inertial3)
+joint3_to_world = Transform3D(frame_before(joint3), default_frame(world), SVector(l_0, 0., 0.))
+attach!(fourbar, world, link3, joint3, joint_pose = joint3_to_world)
+
+
+joint4 = Joint("joint4", Revolute(axis))
