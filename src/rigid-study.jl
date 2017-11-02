@@ -40,7 +40,9 @@ fourbar = Mechanism(world; gravity = SVector(0., 0., g))
 # Partiremos agora para a criação da árvore cinemática em si
 # primeiro criaremos a junta 1
 # agora criamos o referencial inercial do corpo
-# basicamente definimos um frame 3D, informamos a matriz de momento de inércia do corpo, a posição do centro de massa com relação ao sistema de referência local(no caso, o sistema de referência local está tendo origem no próprio centro de massa, assim será um vetor de zeros) multiplicado pela massa e informamos a massa.
+# basicamente definimos um frame 3D, informamos a matriz de momento de inércia do corpo, a posição do centro
+#  de massa com relação ao sistema de referência local(no caso, o sistema de referência local está
+#  tendo origem no próprio centro de massa, assim será um vetor de zeros) multiplicado pela massa e informamos a massa.
 
 joint1 = Joint("joint1", Revolute(axis))
 inertia1 = SpatialInertia(CartesianFrame3D("inertia1_centroidal"), I_1*axis*axis', m_1*SVector(c_1, 0., 0.), m_1)
