@@ -34,21 +34,33 @@ function simulation(kp,kv,r)
 
     #função contendo o sistema, robô sendo utilizado
     function robot(t,u,du)
-        θ = u[1]
-        dθ = u[2]
-        set_configuration!(state,θ)
-        set_velocity!(state,dθ)
-        h = dynamics_bias(state)
-        m = mass_matrix(state)
-        du[1] = dθ
-        du[2] = inv(m)*(u.tau - h)
+        #TODO: adicionar valores para esses termos
+        m1 =
+        L0 =
+        L1 =
+        l1 =
+        I0 =
+        I1 =
+        g =
+
+
+        θ = u[1:2]
+        dθ = u[3:4]
+        M = [I0 + m1*(L0^2)+(l1^2)*m1*(sin(θ[2])^2) L0*l1*m1*cos(θ[2]);
+        L0*l1*m1*cos(θ[2]) I1+m1*(l1^2)]
+
+        C = [2*(l1^2)*m1*sin(θ[2])*cos(θ[2])*dθ[2]  -L0*l1*m1*sin(θ[2])*dθ[2];
+        -(l1)^2*m1*sin(θ[2])*cos(θ[2])*dθ[1]  0]
+
+        G = [0;
+        -g*l1*m1*sin(θ[2])]
+
+        du[1:2] = dθ
+        du[3:4] = inv(M)*(tau - C*dθ -G)
     end
 
     function controlador(integrator)
-        h = dynamics_bias(state)
-        m = mass_matrix(state)
-        q = configuration(state)
-        dotq = velocity(state)
+        # TODO: preciso ver como pegar os valores de erro de dentro da equação
         e = q - r
         for c in user_cache(integrator)
             c.tau = kp*e - kv*dotq
