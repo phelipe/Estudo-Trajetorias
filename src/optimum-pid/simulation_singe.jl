@@ -1,8 +1,7 @@
-# aqui vou fazer o mesmo procedimento para simulação porém montando a euqação para um pendulo simples
+# aqui vou fazer o mesmo procedimento para simulação porém montando a equação para um pendulo simples
 #
 #
 
-#NOTE: tem que modificar tudo aqui para uma simulação de um pendulo simles
 
 type InputRobot{T} <: DEDataVector{T}
     x::Array{T,1}
@@ -35,13 +34,13 @@ function simulation(kp,kv,r)
     #função contendo o sistema, robô sendo utilizado
     function robot(t,u,du)
         #TODO: adicionar valores para esses termos
-        m1 =
-        L0 =
-        L1 =
-        l1 =
-        I0 =
-        I1 =
-        g =
+        m1 = 0.2866
+        L0 = 0.201
+        L1 = 0.30997
+        l1 = 0.154985
+        I0 = 0.0052
+        I1 = 0.0023
+        g = 9.81
 
 
         θ = u[1:2]
@@ -74,8 +73,9 @@ function simulation(kp,kv,r)
     sol = solve(prob,Tsit5(),callback = cbs)
 
     out_x = map(x -> x[1:size],sol.u) #posição
-    out_dx = map(x -> x[(size+1):end],sol.u) #velocidade
-    #NOTE:  Aqui estou fazendo uma aproximação da aceleração e do jerk
+    out_dx = map(x -> x[(size+1):end],sol.u)
+    #velocidade
+    #Aqui estou fazendo uma aproximação da aceleração e do jerk
     out_d2x = diff(out_dx)/Ts #aceleração
     out_d3x = diff(out_d2x)/Ts #jerk
 
