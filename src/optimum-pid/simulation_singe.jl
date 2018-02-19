@@ -94,4 +94,4 @@ end
 ω1 = map(x -> x[1],ω)
 ω2 = map(x -> x[2],ω)
 
-plot(t,teta1)
+plot(t,teta2, xlabel = "tempo (s)", ylabel = "Posição (rad)", title="Simulação pêndulo simples")
